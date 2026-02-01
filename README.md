@@ -25,29 +25,41 @@ Make sure you have the following installed:
 ## Installation Steps
 
 1. Clone this repository:
+
    ```bash
-   git clone https://github.com/yourusername/cyber-command-assistant.git](https://github.com/SagarBiswas-MultiHAT/Cyber-Command-Assistant.git
-   cd cyber-command-assistant
+   git clone https://github.com/SagarBiswas-MultiHAT/Cyber-Command-Assistant.git
+   cd Cyber-Command-Assistant
    ```
 
 2. Install the required libraries:
+
    ```bash
-   pip install pillow groq
+   python -m venv .venv
+   .\.venv\Scripts\Activate.ps1
    ```
 
-3. Add your Groq API key:
-   Open the script and update the `aiProcess` function:
-   ```python
-   client = Groq(api_key="your_api_key_here")
+   ```bash
+   pip install -r requirements.txt
    ```
 
-4. Place a background image (e.g., `Hacked.jpg`) in the project directory or update the file path in the code to use your own image.
+3. Add your Groq API key as an environment variable:
+
+   ```bash
+   set GROQ_API_KEY=your_api_key_here
+   Or,
+   $env:GROQ_API_KEY="your_api_key_here"
+   ```
+
+   You can also create a local `.env` file (not committed). The app loads it automatically. See `.env.example`.
+
+4. Place a background image (e.g., `background.jpg`) in the project directory or update the file path in the code to use your own image.
 
 ## How to Use
 
 1. Run the app:
+
    ```bash
-   python cyber_command_assistant.py
+   python "myApp v1.0.py"
    ```
 
 2. Input a command:
@@ -62,9 +74,11 @@ Make sure you have the following installed:
 
 ```plaintext
 .
-├── cyber_command_assistant.py  # Main application script
-├── Hacked.jpg                 # Default background image
+├── myApp v1.0.py              # Main application script
+├── background.jpg                 # Default background image
 ├── context.json               # Saved session context
+├── requirements.txt           # Runtime dependencies
+├── requirements-dev.txt       # Dev/test dependencies
 └── README.md                  # Documentation file
 ```
 
@@ -74,7 +88,14 @@ Make sure you have the following installed:
   To include more website shortcuts, update the `url_map` dictionary in the `process_command` function.
 
 - **Using a Different Background:**
-  Replace the `Hacked.jpg` file with your chosen image or update its file path in the code.
+  Replace the `background.jpg` file with your chosen image or update its file path in the code.
+
+## Testing
+
+```bash
+pip install -r requirements-dev.txt
+pytest
+```
 
 ## Contributing
 

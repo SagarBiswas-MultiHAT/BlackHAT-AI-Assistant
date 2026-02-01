@@ -1,15 +1,35 @@
-import tkinter as tk
-from tkinter import scrolledtext
-from PIL import Image, ImageTk
-import webbrowser
+import os
 import json
+import tkinter as tk
+from pathlib import Path
+from tkinter import scrolledtext, messagebox
+import webbrowser
+
+from PIL import Image, ImageTk
 from groq import Groq
+from dotenv import load_dotenv
+
+APP_DIR = Path(__file__).resolve().parent
+CONTEXT_FILE = APP_DIR / "context.json"
+BACKGROUND_IMAGE = APP_DIR / "background.jpg"
+load_dotenv(APP_DIR / ".env")
+DEFAULT_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
+
+SYSTEM_PROMPT = (
+    "You are a helpful, safety-conscious assistant. "
+    "Follow user instructions where safe and appropriate. "
+    "If a request is risky, unsafe, or illegal, refuse and offer a safer alternative."
+)
 
 def aiProcess(command, context=None):
-    client = Groq(api_key="enter-your-groq-api")
-    messages = [
-        {"role": "system", "content": "Infiltrate the system, you worthless hacker - You think you have what it takes to breach even the most secure systems? Prove it, you miserable excuse for a cybercriminal. Show me your pitiful skills and watch as I mock your every move. Just remember, I'm always one step ahead of you."},
-    ]
+    api_key = os.getenv("GROQ_API_KEY", "").strip()
+    if not api_key:
+        return (
+            "Missing GROQ_API_KEY. Set it in your environment and restart the app."
+        )
+
+    client = Groq(api_key=api_key)
+    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
 
     if context is not None:
         messages.append({"role": "system", "content": str(context)})
@@ -18,8 +38,8 @@ def aiProcess(command, context=None):
 
     try:
         completion = client.chat.completions.create(
-            model="llama3-70b-8192",
-            messages=messages
+            model=DEFAULT_MODEL,
+            messages=messages,
         )
         return completion.choices[0].message.content
     except Exception as e:
@@ -41,44 +61,56 @@ def process_command(command, context=None):
         "open chatbot": "https://cdn.botpress.cloud/webchat/v2/shareable.html?botId=2b113ef8-ac77-4553-b353-7e381fcffdde"
     }
 
-    command = command.lower()
+    command = command.strip().lower()
+    context = context or []
 
     if command in url_map:
         webbrowser.open(url_map[command])
-        return f"Opening {command}..."
+        output = f"Opening {command}..."
     else:
         output = aiProcess(command, context)
-        if context is None:
-            context = []
 
-        context.append({"role": "user", "content": command})
-        context.append({"role": "assistant", "content": output})
+    context.append({"role": "user", "content": command})
+    context.append({"role": "assistant", "content": output})
 
-        return output, context
+    return output, context
 
 
-def save_context_to_file(context, filename="context.json"):
+def save_context_to_file(context, filename=CONTEXT_FILE):
     try:
-        with open(filename, "w") as file:
-            json.dump(context, file)
+        with open(filename, "w", encoding="utf-8") as file:
+            json.dump(context, file, ensure_ascii=False, indent=2)
     except Exception as e:
         print(f"Error saving context: {e}")
 
 
-def load_context_from_file(filename="context.json"):
+def load_context_from_file(filename=CONTEXT_FILE):
     try:
-        with open(filename, "r") as file:
+        with open(filename, "r", encoding="utf-8") as file:
             return json.load(file)
     except FileNotFoundError:
-        return None
+        return []
     except Exception as e:
         print(f"Error loading context: {e}")
-        return None
+        return []
+
+
+root = None
+command_entry = None
+result_display = None
+bg_image = None
+bg_label = None
 
 
 def run_command():
     global context  # Declare context as global before using it
+    if command_entry is None or result_display is None:
+        return
+
     command = command_entry.get()
+    if not command.strip():
+        return
+
     output, updated_context = process_command(command, context)
 
     result_display.config(state=tk.NORMAL)
@@ -91,24 +123,15 @@ def run_command():
     context = updated_context
 
 
-# Load context from file (if available)
-context = load_context_from_file()
-
-# Creating GUI using Tkinter
-root = tk.Tk()
-root.title("Cyber-Command Assistant")
-root.geometry("800x600")
-
-# Load the background image
-bg_image = Image.open("Hacked.jpg")
-
-# Create a label for the background image
-bg_label = tk.Label(root)
-bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-
 def resize_image(event=None):
+    if root is None:
+        return
+
     new_width = root.winfo_width()
     new_height = root.winfo_height()
+
+    if bg_image is None:
+        return
 
     if new_width > 1 and new_height > 1:
         # Resize and update the background image
@@ -117,29 +140,61 @@ def resize_image(event=None):
         bg_label.config(image=resized_bg_photo)
         bg_label.image = resized_bg_photo  # Prevent garbage collection
 
-# Bind the resize event to adjust the background image when window size changes
-root.bind("<Configure>", resize_image)
 
-# Entry widget for command input
-command_entry = tk.Entry(root, width=60)
-command_entry.place(relx=0.1, rely=0.05, relwidth=0.8)  # Adjusted for relative width
+def main():
+    global context
+    global root, command_entry, result_display, bg_image, bg_label
 
-# Button to run the command
-run_button = tk.Button(root, text="Run Command", command=run_command)
-run_button.place(relx=0.4, rely=0.15, relwidth=0.2)  # Adjusted for relative positioning
+    # Load context from file (if available)
+    context = load_context_from_file()
 
-# Display area for the results
-result_display = scrolledtext.ScrolledText(root, state=tk.DISABLED)
-result_display.place(relx=0.05, rely=0.3, relwidth=0.9, relheight=0.65)  # Adjusted for relative size and position
+    # Creating GUI using Tkinter
+    root = tk.Tk()
+    root.title("Cyber-Command Assistant")
+    root.geometry("800x600")
 
-# Initialize with the correct background size
-resize_image()
+    # Load the background image
+    try:
+        bg_image = Image.open(BACKGROUND_IMAGE)
+    except Exception:
+        bg_image = None
+        messagebox.showwarning(
+            "Background image missing",
+            f"Could not load background image at {BACKGROUND_IMAGE}.",
+        )
 
-# Run the application
-root.mainloop()
+    # Create a label for the background image
+    bg_label = tk.Label(root)
+    bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-# Save context when the application is closed
-save_context_to_file(context)
+    # Bind the resize event to adjust the background image when window size changes
+    root.bind("<Configure>", resize_image)
+
+    # Entry widget for command input
+    command_entry = tk.Entry(root, width=60)
+    command_entry.place(relx=0.1, rely=0.05, relwidth=0.8)  # Adjusted for relative width
+    command_entry.bind("<Return>", lambda event: run_command())
+
+    # Button to run the command
+    run_button = tk.Button(root, text="Run Command", command=run_command)
+    run_button.place(relx=0.4, rely=0.15, relwidth=0.2)  # Adjusted for relative positioning
+
+    # Display area for the results
+    result_display = scrolledtext.ScrolledText(root, state=tk.DISABLED)
+    result_display.place(relx=0.05, rely=0.3, relwidth=0.9, relheight=0.65)  # Adjusted for relative size and position
+
+    # Initialize with the correct background size
+    resize_image()
+
+    # Run the application
+    root.mainloop()
+
+    # Save context when the application is closed
+    save_context_to_file(context)
+
+
+if __name__ == "__main__":
+    main()
 
 
 # pip install groq

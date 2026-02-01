@@ -1,0 +1,3 @@
+groq
+pillow
+python-dotenv
