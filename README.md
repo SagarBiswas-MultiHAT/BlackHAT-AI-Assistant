@@ -1,6 +1,6 @@
 # BlackHAT-AI-Assistant
 
-![Python CI](https://github.com/SagarBiswas-MultiHAT/virusNewFolder/actions/workflows/python-ci.yml/badge.svg)
+![Python CI](https://github.com/SagarBiswas-MultiHAT/BlackHAT-AI-Assistant/actions/workflows/python-ci.yml/badge.svg)
 
 BlackHAT-AI-Assistant is a Python-based desktop tool designed to combine AI-powered features with an easy-to-use interface. This application allows users to interact with an AI assistant, perform commands, and access websites effortlessly. Built with Tkinter, it features a customizable layout and saves your session history for convenience.
 
