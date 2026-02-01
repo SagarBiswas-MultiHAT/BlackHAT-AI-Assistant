@@ -1,8 +1,8 @@
-# Cyber-Command Assistant
+# BlackHAT-AI-Assistant
 
 ![Python CI](https://github.com/SagarBiswas-MultiHAT/virusNewFolder/actions/workflows/python-ci.yml/badge.svg)
 
-Cyber-Command Assistant is a Python-based desktop tool designed to combine AI-powered features with an easy-to-use interface. This application allows users to interact with an AI assistant, perform commands, and access websites effortlessly. Built with Tkinter, it features a customizable layout and saves your session history for convenience.
+BlackHAT-AI-Assistant is a Python-based desktop tool designed to combine AI-powered features with an easy-to-use interface. This application allows users to interact with an AI assistant, perform commands, and access websites effortlessly. Built with Tkinter, it features a customizable layout and saves your session history for convenience.
 
 ---
 
@@ -119,4 +119,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-Enjoy using Cyber-Command Assistant! If you like this project, don’t forget to ⭐ it on GitHub.
+Enjoy using BlackHAT-AI-Assistant! If you like this project, don’t forget to ⭐ it on GitHub.
