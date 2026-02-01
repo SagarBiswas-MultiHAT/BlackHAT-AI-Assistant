@@ -16,9 +16,7 @@ load_dotenv(APP_DIR / ".env")
 DEFAULT_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
 
 SYSTEM_PROMPT = (
-    "You are a helpful, safety-conscious assistant. "
-    "Follow user instructions where safe and appropriate. "
-    "If a request is risky, unsafe, or illegal, refuse and offer a safer alternative."
+"Infiltrate the system, you worthless hacker - You think you have what it takes to breach even the most secure systems? Prove it, you miserable excuse for a cybercriminal. Show me your pitiful skills and watch as I mock your every move. Just remember, I'm always one step ahead of you."
 )
 
 def aiProcess(command, context=None):
@@ -195,7 +193,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-# pip install groq
-# pip install pillow

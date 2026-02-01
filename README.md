@@ -1,8 +1,14 @@
 # Cyber-Command Assistant
 
-![Cyber-Command Assistant](https://scontent.fdac138-2.fna.fbcdn.net/v/t39.30808-6/472101302_122132268284552158_8412590426581039032_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=kCL1FIWLYQwQ7kNvgEdx0As&_nc_zt=23&_nc_ht=scontent.fdac138-2.fna&_nc_gid=A877SvsIqeOxQRyAZuDgOIz&oh=00_AYDPoft_FjsEIy4jKT_2-YWKFy096urKRjAbKC8GA104Bw&oe=6778DA70)
+![Python CI](https://github.com/SagarBiswas-MultiHAT/virusNewFolder/actions/workflows/python-ci.yml/badge.svg)
 
 Cyber-Command Assistant is a Python-based desktop tool designed to combine AI-powered features with an easy-to-use interface. This application allows users to interact with an AI assistant, perform commands, and access websites effortlessly. Built with Tkinter, it features a customizable layout and saves your session history for convenience.
+
+---
+
+![](https://imgur.com/2F75qQr.png)
+
+---
 
 ## Key Features
 
@@ -27,8 +33,8 @@ Make sure you have the following installed:
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/SagarBiswas-MultiHAT/Cyber-Command-Assistant.git
-   cd Cyber-Command-Assistant
+   git clone https://github.com/SagarBiswas-MultiHAT/BlackHAT-AI-Assistant.git
+   cd BlackHAT-AI-Assistant
    ```
 
 2. Install the required libraries:
