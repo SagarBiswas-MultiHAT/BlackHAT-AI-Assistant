@@ -1,6 +1,18 @@
 # BlackHAT-AI-Assistant
 
-![CI](https://github.com/SagarBiswas-MultiHAT/BlackHAT-AI-Assistant/actions/workflows/python-ci.yml/badge.svg) ![Python](https://img.shields.io/badge/python-3.7%2B-blue) ![License](https://img.shields.io/badge/license-MIT-green) ![Last commit](https://img.shields.io/github/last-commit/SagarBiswas-MultiHAT/BlackHAT-AI-Assistant) ![Issues](https://img.shields.io/github/issues/SagarBiswas-MultiHAT/BlackHAT-AI-Assistant)
+<div align="right">
+
+![CI](https://github.com/SagarBiswas-MultiHAT/BlackHAT-AI-Assistant/actions/workflows/python-ci.yml/badge.svg) 
+&nbsp;
+![Python](https://img.shields.io/badge/python-3.7%2B-blue) 
+&nbsp;
+![License](https://img.shields.io/badge/license-MIT-green) 
+&nbsp;
+![Last commit](https://img.shields.io/github/last-commit/SagarBiswas-MultiHAT/BlackHAT-AI-Assistant) 
+&nbsp;
+![Issues](https://img.shields.io/github/issues/SagarBiswas-MultiHAT/BlackHAT-AI-Assistant)
+
+</div>
 
 BlackHAT-AI-Assistant is a Python-based desktop tool designed to combine AI-powered features with an easy-to-use interface. This application allows users to interact with an AI assistant, perform commands, and access websites effortlessly. Built with Tkinter, it features a customizable layout and saves your session history for convenience.
 
